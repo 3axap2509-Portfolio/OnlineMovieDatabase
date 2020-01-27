@@ -1,0 +1,15 @@
+﻿@model string
+@{
+    ViewData["Title"] = Model;
+}
+<script type="text/javascript">
+    
+    if ('@Model.ToLower().Trim()' == 'redirect_from_vk') {
+        function load() {
+            var newHref = window.location.href.replace('#', '?');
+            window.location.replace(newHref);
+        }
+        load(); 
+    }
+</script>
+<h1>@Model</h1>

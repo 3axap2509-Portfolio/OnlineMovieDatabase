@@ -1,0 +1,24 @@
+﻿@model List<User>;
+
+@{
+    ViewData["Title"] = "Пользователи";
+}
+
+<h1>Пользователи</h1>
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <div>
+                <a asp-action="Details" asp-controller="Account" asp-route-id="@item.Id" class="bigLabelFont">
+                    <div class="el elhover">
+                        <div class="smalluseravatar">
+                            <img src="~/static/images/UsersAvatars/@(item.Id).jpg" onerror="this.src='../static/images/UsersAvatars/NoAvatar/NoAvatar50px.png'" />
+                        </div>
+                        <label class="bigLabelFont" style="width: 300px">@item.UserName</label>
+                    </div>
+                </a>
+            </div>
+        }
+    </tbody>
+</table>

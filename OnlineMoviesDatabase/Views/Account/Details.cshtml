@@ -1,0 +1,102 @@
+﻿@model OnlineMovieDatabase.ViewModels.AccountDetailsViewModels;
+
+@{
+    ViewData["Title"] = Model.User.UserName;
+}
+
+<h1>Профиль @Model.User.UserName</h1>
+
+<div align="center">
+    <img class="biguseravatar" src="~/static/images/UsersAvatars/@(Model.User.Id).jpg" onerror="this.src='../static/images/UsersAvatars/NoAvatar/NoAvatar200px.png'" />
+    <br />
+    <label style="font-size:20px">Отзывов:@Model.ReviewsCounter, комментариев:@Model.CommentsCounter</label>
+    <br />
+</div>
+<script>
+    function BanUser(userid, banfor, reason) {
+        $.ajax({
+            type: 'get',
+            async: true,
+            url: "../Users/" + userid + "/Ban?bannedFor=" + banfor + "&reason=" + reason,
+            success: function (msg) {
+                if (msg == "ок") {
+                    alert("Пользователь заблокирован успешно");
+                    var newHtml =  `<details>
+                                        <summary>Разблокировать пользователя</summary>
+                                        <a onclick="UnbanUser(` + userid + `)">
+                                            <img title="Разблокировать" src="../static/images/InterfaceButtons/Plus.png" height="30" />
+                                        </a>
+                                    </details>`
+                    $('#banunban').html(newHtml)
+                }
+                else {
+                    alert("Ошибка: " + msg);
+                }
+            }
+        });
+
+    }
+    function UnbanUser(userid) {
+        $.ajax({
+            type: 'get',
+            async: true,
+            url: "../Users/" + userid + "/Unban",
+            success: function (msg) {
+                if (msg == "ок") {
+                    alert("Пользователь разблокирован успешно");
+                    var newHtml = `<details>
+                                        <summary>Заблокировать пользователя</summary>
+                                        Дата окончания блокировки: <input id="dateBan" type="date" />
+                                        Причина блокировки: <input id="banReason" type="text"/>
+                                        <a title="Заблокировать" onclick="BanUser(` + userid + `, $('#dateBan').val(), $('#banReason').val())">
+                                            <img title="Забанить" src="../static/images/InterfaceButtons/Delete.png" height="30" />
+                                        </a>
+                                    </details>`
+                    $('#banunban').html(newHtml)
+                }
+                else {
+                    alert("Ошибка: " + msg);
+                }
+            }
+        });
+    }
+</script>
+@if (User.IsInRole("admin"))
+{
+    <div align="center" id="banunban">
+        @if (Model.User.IsBanned)
+        {
+            @if (Model.User.BannedFor > (DateTime.Now))
+            {
+                <details>
+                    <summary>Разблокировать пользователя</summary>
+                    <a onclick="UnbanUser(@Model.User.Id)">
+                        <img title="Разблокировать" src="~/static/images/InterfaceButtons/Plus.png" height="30" />
+                    </a>
+                </details>
+            }
+            else
+            {
+                <details>
+                    <summary>Заблокировать пользователя</summary>
+                    Дата окончания блокировки: <input id="dateBan" type="date" />
+                    Причина блокировки: <input id="banReason" type="text"/>
+                    <a title="Заблокировать" onclick="BanUser(@Model.User.Id, $('#dateBan').val(), $('#banReason').val())">
+                        <img title="Забанить" src="~/static/images/InterfaceButtons/Delete.png" height="30" />
+                    </a>
+                </details>
+            }
+        }
+        else
+        {
+            <details>
+                <summary>Заблокировать пользователя</summary>
+                    Дата окончания блокировки: <input id="dateBan" type="date" />
+                    Причина блокировки: <input id="banReason" type="text"/>
+                <a title="Заблокировать" onclick="BanUser(@Model.User.Id, $('#dateBan').val(), $('#banReason').val())">
+                    <img title="Забанить" src="~/static/images/InterfaceButtons/Delete.png" height="30" />
+                </a>
+            </details>
+        }
+    </div>
+}

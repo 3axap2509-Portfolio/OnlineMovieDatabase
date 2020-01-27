@@ -1,0 +1,479 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.back-gray {
+    background-color: lightgray
+}
+.back-green {
+    background-color: green
+}
+.back-yellow {
+    background-color: yellow
+}
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: #dedede;
+    width: 100%;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    /* Set the fixed height of the footer here */
+    height: 40px;
+    line-height: 40px; /* Vertically center the text there */
+}
+
+/*my styles*/
+
+.uppercontainer {
+    background-color: green;
+}
+
+div.el {
+    border-radius: 10px;
+    border: solid 2px lightblue;
+    display: flex;
+    padding-right: 10px;
+    background-color: rgba(238, 238, 238, 0.6);
+    position: relative;
+    overflow: hidden
+}
+
+div.eldetails {
+    border-radius: 10px;
+    border: solid 2px lightblue;
+    display: flex;
+    flex-direction:row;
+    padding-right: 10px;
+    background-color: rgba(238, 238, 238, 0.6);
+    position: relative;
+    overflow: hidden
+}
+
+img.el {
+    border-radius: 10px;
+    height: 250px;  
+}
+h2.el {
+    color: black;
+    font-size: 30px;
+}
+div.elinfo {
+    padding: 5px;
+    display: flex;
+    margin-left: 10px;
+    flex-direction: column;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 250px;
+}
+div.elhover:hover {
+    border-radius: 10px;
+    display: flex;
+    background-color: slategray;
+    position: relative;
+}
+
+div.eldetails {
+    padding: 5px;
+    display: flex;
+    margin-left: 10px;
+    flex-direction: column;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 250px;
+}
+
+div.eltitle {
+    display: flex;
+    margin-right: 10px;
+}
+img.elstar {
+    width: 30px;
+    height: 30px;
+}
+div.eltext {
+    position: absolute;
+    right: 10px;
+}
+
+div.VerticalSlider {
+    /*overflow: auto;*/
+    height: unset;
+    overflow: auto;
+}
+
+img.rot {
+    animation: 20s linear 0s normal none infinite running rot;
+    -webkit-animation: 20s linear 0s normal none infinite running rot;
+}
+
+@keyframes rot {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes rot {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+div.smalluseravatar {
+    margin: 5px;
+    border-radius: 25px;
+    overflow: hidden;
+    min-width: 50px;
+    min-height: 50px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border: solid 2px black;
+}
+
+    div.smalluseravatar img {
+        width: 100%;
+        height: 100%;
+        left: 50%;
+        position: relative;
+        transform: translateX(-50%);
+        object-fit: cover
+    }
+img.biguseravatar {
+    height: 200px;
+    border-radius: 30px;
+    border: solid black 2px;
+}
+.active-purple-2 input[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #ce93d8;
+    box-shadow: 0 1px 0 0 #ce93d8;
+}
+.active-purple input[type=text] {
+    width: inherit;
+    border-bottom: 1px solid #ce93d8;
+    box-shadow: 0 1px 0 0 #ce93d8;
+}
+
+.searchForm {
+    width: 90%;
+    min-width: 200px;
+    height: 40px;
+    margin-top:1rem;
+    margin-left:2rem;
+}
+
+.bigLabelFont {
+    font-size: 20px;
+}
+
+.bigMainLabelFont {
+    font-size: 30px;
+}
+
+.titlename {
+    text-align: center;
+}
+
+/*nav-bar*/
+.mynavbar {
+    background-color: dimgray;
+    z-index: 100;
+    display: flex;
+    position:relative;
+    flex-direction: row;
+    display: -ms-flexbox;
+    -ms-flex-align: center;
+    -ms-flex-pack: justify;
+    /*justify-content: space-between;*/
+    padding: 0.7rem 0.3rem 0.3rem 5rem;
+    width: 100%;
+}
+.mynavlink {
+    font-size: 20px;
+    height: 40px;
+    margin-right:10px;
+    margin-left:10px;
+    padding-top:1.4rem;
+}
+div.mynavsearch {
+    padding-top: 1.1rem;
+    padding-right: 1rem;
+}
+div.mynavmenus{
+    width:60%;
+    position:relative;
+}
+div.mynavnamelabel {
+    padding-top: 0.7rem;
+}
+
+input.searchbutton{
+    margin-left:0.6rem;
+}
+
+table.TitleReviewtable td {
+    padding: 10px;
+    border: solid black 2px;
+}
+table.TitleReviewtable {
+    margin-left: 20px;
+    width: inherit;
+}
+.dividentity {
+    margin-left: 0;
+    position: absolute;
+    right:20px;
+}
+
+.EditTA {
+    width: 1000px;
+    height: 300px;
+}
+
+span.validation-error {
+    color: red;
+}
+/*dotnet ef dbcontext scaffold "Server=ZAHAR-PC\SQLEXPRESS;Database=OnlineMovieDatabase;Integrated Security=True;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -s D:\Studying\7\Курсач\OnlineMovieDatabase\OnlineMovieDatabase --force*/
+
+/*Красивый слайдер из интернетов*/
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 7.45px 0;
+}
+input[type=range]:focus {
+outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+width: 100%;
+height: 4.1px;
+cursor: pointer;
+box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+background: #4371a9;
+border-radius: 1.3px;
+border: 0px solid #010101;
+}
+input[type=range]::-webkit-slider-thumb {
+box-shadow: 1px 1px 1px #730000, 0px 0px 1px #8d0000;
+border: 1px solid #000000;
+height: 19px;
+width: 19px;
+border-radius: 19px;
+background: #ffffff;
+cursor: pointer;
+-webkit-appearance: none;
+margin-top: -7.45px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+background: #4d7db8;
+}
+input[type=range]::-moz-range-track {
+width: 100%;
+height: 4.1px;
+cursor: pointer;
+box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+background: #4371a9;
+border-radius: 1.3px;
+border: 0px solid #010101;
+}
+input[type=range]::-moz-range-thumb {
+box-shadow: 1px 1px 1px #730000, 0px 0px 1px #8d0000;
+border: 1px solid #000000;
+height: 19px;
+width: 19px;
+border-radius: 19px;
+background: #ffffff;
+cursor: pointer;
+}
+input[type=range]::-ms-track {
+width: 100%;
+height: 4.1px;
+cursor: pointer;
+background: transparent;
+border-color: transparent;
+color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+background: #3c6597;
+border: 0px solid #010101;
+border-radius: 2.6px;
+box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-fill-upper {
+background: #4371a9;
+border: 0px solid #010101;
+border-radius: 2.6px;
+box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-thumb {
+box-shadow: 1px 1px 1px #730000, 0px 0px 1px #8d0000;
+border: 1px solid #000000;
+height: 19px;
+width: 19px;
+border-radius: 19px;
+background: #ffffff;
+cursor: pointer;
+height: 4.1px;
+}
+input[type=range]:focus::-ms-fill-lower {
+background: #4371a9;
+}
+input[type=range]:focus::-ms-fill-upper {
+background: #4d7db8;
+}
+
+.mainBody {
+/*background-image: url('../static/images/back4.jpg');*/
+background-color: rgb(138, 138, 138);
+background-repeat:repeat;
+width: 100%;
+height: 100%;
+background-attachment:fixed
+}
+
+/*Tabs*/
+.tab {
+overflow: hidden;
+border: 1px solid #ccc;
+background-color: #f1f1f1;
+}
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+    .tab button:hover {
+        background-color: #ddd;
+    }
+    .tab button.active {
+        background-color: #ccc;
+    }
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+/*comments & reviews*/
+
+div.new-comment {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center
+}
+div.comment-review-list {
+    display: flex;
+    flex-direction: column;
+    border: solid 3px;
+    border-color: rgba(0, 0, 0, 0.42);
+    border-radius: 10px;
+}
+div.comment {
+    border-radius: 5px;
+    border: solid 2px gray;
+    display: flex;
+    padding: 10px;
+    background-color: #eeeeee;
+    position: relative;
+}
+p.comment {
+    border-left: 2px solid #ccc;
+    margin-left: 20px;
+    margin-top:20px;
+    padding-left: 10px;
+    width: 90%
+}
+
+/*interface buttons*/
+img.removebutton20px {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 10px;
+}
+img.removebutton20px:hover{
+    background-image:radial-gradient(circle, gray, gray, gray, transparent, transparent);
+}
+img.editbutton20px {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 10px;
+    top:40px;
+}
+img.editbutton20px:hover {
+    background-image: radial-gradient(circle, transparent, transparent, gray, gray, gray);
+}
+label.ownratingscore14px {
+    position: absolute;
+    font-size: 15px;
+    right: 60px;
+}
+label.ownratingscore14px::after {
+    content: url(../Static/Images/stars/blackstar15px.png);
+}
+label.ratingscore14px {
+    position: absolute;
+    font-size: 15px;
+    right: 20px;
+}
+
+label.ratingscore14px::after {
+    content: url(../Static/Images/stars/blackstar15px.png);
+}
+ratingscore14px
+
+
+img.oauthlogo{
+    height: 35px;
+    width: 35px;
+}

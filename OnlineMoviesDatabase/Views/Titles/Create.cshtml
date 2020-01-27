@@ -1,0 +1,51 @@
+﻿@model Movie
+
+@{
+    ViewData["Title"] = "Добавление фильма в БД";
+}
+
+<h1>Добавление фильма/сериала в базу данных</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-controller="Titles" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RuTitle" class="control-label">Название фильма/сериала:</label>
+                <input asp-for="RuTitle" class="form-control" />
+                <span asp-validation-for="RuTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Genres" class="control-label">Жанры(через запятую):</label>
+                <input asp-for="Genres" class="form-control" />
+                <span asp-validation-for="Genres" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label">Дата выхода на экраны:</label>
+                <input type="date" asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RuDescription" class="control-label">Описание:</label>
+                <textarea class="EditTA" asp-for="RuDescription" ></textarea>
+                <span asp-validation-for="RuDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label class="control-label">Постер:</label>
+            <input type="file" name="Poster" accept=".jpg,.png" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-danger">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

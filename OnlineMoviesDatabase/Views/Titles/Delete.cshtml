@@ -1,0 +1,32 @@
+﻿@model Movie
+
+@{
+    ViewData["Title"] = "Удаление фильма";
+}
+
+
+<h3>Вы уверены, что хотите удалить данный фильм?</h3>
+<div>
+    <hr />
+    <h2>@Model.RuTitle</h2>
+    <dl class="row">
+        <dt class="col-sm-10">
+            Год выхода: @Html.DisplayFor(model => model.ReleaseYear)
+        </dt>
+        <dt class="col-sm-10">
+            Описание:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RuDescription)
+        </dd>
+        <dt class="col-sm-10">
+            Рейтинг: @Html.DisplayFor(model => model.Rating)/10<img src="~/static/images/stars/star50px.png" width="15" />
+        </dt>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-primary">Назад</a>
+    </form>
+</div>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Movie>
+
+@{
+    ViewData["Title"] = "Результаты поиска";
+}
+
+<body>
+    @if (Model != null)
+    {
+        @foreach (Movie item in Model)
+        {
+            <div class="el">
+                <div>
+                    <a href="../Titles/@item.Id">
+                        <img class="el" src="~/static/images/Posters/@(@item.Id).jpg" onerror="this.src = '../static/images/Posters/NoPoster/NoPoster250px.png'" />
+                    </a>
+                </div>
+                <div class="elinfo">
+                    <div class="eltitle">
+                        <a href="../Titles/@item.Id">
+                            <h3 class="el">@item.RuTitle</h3>
+                        </a>
+                        <div class="eltext">
+                            <img class="elstar" src="~/static/images/stars/star50px.png" />
+                            @item.Rating/10.0
+                            @if (User.IsInRole("admin"))
+                            {
+                                <a asp-action="Delete" asp-controller="Titles" title="Удалить" asp-route-id="@item.Id">
+                                    <img class="elstar" src="~/static/images/InterfaceButtons/Delete.png" />
+                                </a>
+                            }
+                        </div>
+                    </div>
+                    @item.RuDescription
+                </div>
+            </div>
+            <br />
+        }
+    }
+    else
+    {
+        <H1 align="center">Ничего не найдено :(</H1>
+    }
+</body>

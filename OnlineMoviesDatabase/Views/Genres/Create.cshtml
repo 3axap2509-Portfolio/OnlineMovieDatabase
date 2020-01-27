@@ -1,0 +1,29 @@
+﻿@model OnlineMovieDatabase.Models.Genre
+
+@{
+    ViewData["Title"] = "Добавить жанр";
+}
+
+<h1>Добавление нового жанра</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RuGenreName" class="bigLabelFont">Жанр:</label>
+                <input asp-for="RuGenreName" class="form-control" />
+                <span asp-validation-for="RuGenreName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-danger"  asp-action="Index">Назад</a>
+</div>
+

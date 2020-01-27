@@ -1,0 +1,67 @@
+﻿@model OnlineMovieDatabase.ViewModels.UserEditViewModel
+
+@{
+    ViewData["Title"] = "Редактирование";
+}
+
+<h4>@Model.user.UserName</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-controller="Account" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="user.Id" />
+            <input type="hidden" asp-for="user" />
+            <div class="form-group">
+                <label class="control-label">Имя пользователя</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="validation-error"></span>
+            </div>
+            @if (!Model.user.OauthAuthorized)
+            {
+                <div class="form-group">
+                    <details aria->
+                        <summary>Смена пароля:</summary>
+                        <label class="control-label">Текущий пароль:</label>
+                        <input type="password" style="width: 0;height: 0; visibility: hidden;position:absolute;left:0;top:0;" />
+                        <input asp-for="currentPassword" autocomplete="off" class="form-control" />
+                        <span asp-validation-for="currentPassword" class="validation-error"></span>
+                        <label class="control-label">Новый пароль:</label>
+                        <input asp-for="newPassword" class="form-control" />
+                        <span asp-validation-for="newPassword" class="validation-error"></span>
+                        <label class="control-label">Повторите новый пароль:</label>
+                        <input asp-for="newPasswordRepeat" class="form-control" />
+                        <span asp-validation-for="newPasswordRepeat" class="validation-error"></span>
+
+                    </details>
+                </div>
+            }
+            <div class="form-group">
+                <label class="control-label">Фото профиля</label>
+                <input type="file" name="newProfileAvatar" accept=".jpg,.png" />
+            </div>
+            <div class="form-group" style="display: @(Model.user.EmailAddress.EndsWith("@omdb.com")? "none": "block") ">
+                @if (Model.user.NeedToNotificate)
+                {
+                    <label class="control-label">Уведомления на почтовый ящик: <input asp-for="NeedToNotify" checked type="checkbox" /></label>
+                }
+                else
+                {
+                    <label class="control-label">Уведомления на почтовый ящик: <input asp-for="NeedToNotify" type="checkbox" /></label>
+                }
+                <span asp-validation-for="NeedToNotify" class="validation-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn-primary btn" asp-action="Index">назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

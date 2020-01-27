@@ -1,0 +1,31 @@
+﻿@model IEnumerable<OnlineMovieDatabase.Models.Genre>
+
+@{
+    ViewData["Title"] = "Жанры";
+}
+
+<h1>Жанры</h1>
+
+<p>
+    @if (User.IsInRole("admin"))
+    {<a asp-action="Create"><img src="~/static/images/InterfaceButtons/Plus.png" width="50" title="Добавить новый жанр" /></a>}
+    </p>
+<table class="table">
+    <tbody>
+        @foreach (var item in Model) 
+        {
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="Titles" asp-route-sortTypeStr="имени(возр.)" asp-route-sortParm="@item.RuGenreName" class="bigLabelFont">
+                        <label class="btn btn-primary" style="width: 300px" >@item.RuGenreName</label>
+                    </a>
+                    @if(User.IsInRole("admin"))
+                    {
+                        <a class="bigLabelFont" asp-action="Delete" asp-route-id="@item.Id">
+                    <label class="btn btn-danger" >Удалить</label></a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,138 @@
+﻿
+@model OnlineMovieDatabase.ViewModels.TitlesViewModel
+
+@{
+    ViewData["Title"] = "Список фильмов";
+    List<string> sorttypes = new List<string>()
+    {
+        "имени(возр.)",
+        "имени(убыв.)",
+        "рейтингу(возр.)",
+        "рейтингу(убыв.)",
+        "дате выхода(возр.)",
+        "дате выхода(убыв.)"
+    };
+}
+    <body id="bd">
+        @if (User.IsInRole("admin"))
+        {
+            <div align="center">
+                <p>
+                    <a asp-action="Create">
+                        <img src="~/static/images/InterfaceButtons/Plus.png" height="50" title="Добавить новый фильм" />
+                    </a>
+                </p>
+            </div>
+        }
+        <div style="width:100%; height:60px">
+            <form asp-action="Index" asp-route-page="1" method="get">
+                <label class="bigLabelFont">Сортировка по: </label>
+                <select asp-for="sortTypeStr" id="sortselect">
+                    @for (int i = 0; i < sorttypes.Count; i++)
+                    {
+                        if (i == (int)Model.sortType)
+                        {
+                            <option selected="selected">@sorttypes[i]</option>
+                        }
+                        else
+                        {
+                            <option>@sorttypes[i]</option>
+                        }
+                    }
+                </select>
+                <label class="bigLabelFont"> жанр: </label>
+                <select asp-for="sortParm">
+                    @foreach (string g in Model.Genres)
+                    {
+                        @if (g == Model.sortParm)
+                        {<option selected="selected">@g</option>}
+                        else
+                        {<option>@g</option>}
+                    }
+                </select>
+                <input type="submit" class="btn btn-primary" value="Сортировать" />
+            </form>
+        </div>
+
+        <div align="center">
+            @if (Model.PageViewModel.HasPreviousPage)
+            {
+                <a asp-action="Index"
+                   asp-route-sortParm="@(Model.sortParm)"
+                   asp-route-sortTypeStr="@(Model.sortTypeStr)"
+                   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+                   class="btn btn-primary">
+                    Предыдущая страница
+                </a>
+            }
+            Страница: @(Model.PageViewModel.PageNumber)/@(Model.PageViewModel.TotalPages)
+            @if (Model.PageViewModel.HasNextPage)
+            {
+                <a asp-action="Index"
+                   asp-route-sortParm="@(Model.sortParm)"
+                   asp-route-sortTypeStr="@(Model.sortTypeStr)"
+                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                   class="btn btn-primary">
+                    Следующая страница
+                </a>
+            }
+        </div>
+        <br />
+        @foreach (Movie item in Model.Movies)
+        {
+            <div class="el elhover">
+                <div>
+                    <a href="../Titles/@item.Id">
+                        <img class="el" src="~/static/images/Posters/@(@item.Id).jpg" onerror="this.src='../static/images/Posters/NoPoster/NoPoster250px.png'" />
+                    </a>
+                </div>
+                <div class="elinfo">
+                    <div class="eltitle">
+                        <a href="../Titles/@item.Id">
+                            <h2 class="el">@item.RuTitle, @item.ReleaseYear</h2>
+                        </a>
+                        <div class="eltext">
+                            <img class="elstar" src="~/static/images/stars/star50px.png" />
+                            @item.Rating/10.0
+                            @if (User.IsInRole("admin"))
+                            {
+                                <a asp-action="Delete" asp-controller="Titles" title="Удалить" asp-route-id="@item.Id">
+                                    <img class="elstar" src="~/static/images/InterfaceButtons/Delete.png" />
+                                </a>
+                            }
+                        </div>
+                    </div>
+                    @item.RuDescription
+                </div>
+            </div>
+            <br />
+        }
+    <div align="center">
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <a asp-action="Index"
+               asp-route-sortParm="@(Model.sortParm)"
+               asp-route-sortTypeStr="@(Model.sortTypeStr)"
+               asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+               class="btn btn-primary">
+                Предыдущая страница
+            </a>
+        }
+        Страница: @(Model.PageViewModel.PageNumber)/@(Model.PageViewModel.TotalPages)
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <a asp-action="Index"
+               asp-route-sortParm="@(Model.sortParm)"
+               asp-route-sortTypeStr="@(Model.sortTypeStr)"
+               asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+               class="btn btn-primary">
+                Следующая страница
+            </a>
+        }
+    </div>
+    </body>
+
+
+
+
+

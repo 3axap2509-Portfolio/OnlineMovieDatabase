@@ -1,0 +1,18 @@
+﻿@model OnlineMovieDatabase.ViewModels.AccountDetailsViewModels
+@*@model User*@
+@{
+    ViewData["Title"] = Model.User.UserName;
+}
+
+<h1 align="center">Мой аккаунт</h1>
+<div align="center">
+    <h2>@Model.User.UserName</h2>
+    <img class="biguseravatar" src="~/static/images/UsersAvatars/@(Model.User.Id).jpg" onerror="this.src='../static/images/UsersAvatars/NoAvatar/NoAvatar200px.png'" />
+    <br />
+    <label style="font-size:20px">Отзывов:@Model.ReviewsCounter, комментариев:@Model.CommentsCounter</label>
+    <br />
+    <a asp-action="Edit">
+        <img title="Редактировать данные аккаунта" src="~/static/images/InterfaceButtons/Edit.png" height="30" />
+    </a>
+    <hr />
+</div>

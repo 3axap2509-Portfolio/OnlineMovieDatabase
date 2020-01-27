@@ -1,0 +1,309 @@
+﻿@model OnlineMovieDatabase.ViewModels.MovieViewModel
+@{
+    ViewData["Title"] = Model.movie.RuTitle;
+    int movieId = Model.movie.Id;
+    bool isAuthorized = false;
+    if (Model.user != null)
+    { isAuthorized = true; }
+    int userId = -1;
+    if (isAuthorized)
+    {
+        userId = Model.user.Id;
+    }
+}
+    <body>
+        @if (User.IsInRole("admin"))
+        {
+            <div align="center">
+                <a asp-controller="Titles" asp-action="Edit" asp-route-id="@(movieId)">
+                    <img src="~/static/images/InterfaceButtons/Edit.png" height="50" title="Изменить" />
+                </a>
+            </div>
+        }
+        <div align="center">
+        </div>
+        <h2 class="titlename">@Model.movie.RuTitle</h2>
+        <div align="center" class="column el">
+            <img align="middle" src="~/static/images/Posters/@(movieId).jpg" onerror="this.src = '../static/images/Posters/NoPoster/NoPoster500px.png'" height="400" />
+            <script type="text/javascript">
+            function changeRatingSlider(x) {
+                $('#ratingLabel').text(x);
+            }
+            function sendCommentOrReviewAsync(revOrCom) {
+                $.ajax({
+                    type: 'POST',
+                    async: true,
+                    url: '../Titles/@movieId/AddCommentOrReview',
+                    data:$(revOrCom == "rev" ? '#newreview' : '#newcomment').serialize(),
+                    success: function (data) {
+                        if (data.result) {
+                            var listId = revOrCom == 'rev' ? '#reviewList' : '#commentList';
+                            var newData = '';
+                            var comRevTextAreaId = revOrCom == 'rev' ? '#reviewText' : '#commentText';
+                            $(comRevTextAreaId).val('');
+                            var userAlreadyHasReview = false;
+                            for (el in data.entityList) {
+                                newData +=
+                                    `<div class="comment">
+                                <a href="../Users/` + data.entityList[el].key.id +
+                                    '" title="' + data.entityList[el].key.userName + '">' + `
+                                    <div class="smalluseravatar">
+                                        <img src="../static/images/UsersAvatars/` + data.entityList[el].key.id +
+                                    `.jpg" onerror="this.src='../static/images/UsersAvatars/NoAvatar/NoAvatar50px.png'"/>
+                                    </div>
+                                </a>`
+                                if (data.entityList[el].key.id == @userId) {
+                                    userAlreadyHasReview = true;
+                                    newData +=
+                                        `<a  onclick="removeCommentOrReviewAsync(` + data.entityList[el].value.id + `,'` + revOrCom + `')" title='Удалить'>
+                                            <img class="removebutton20px" src="../static/images/InterfaceButtons/Delete.png"/>
+                                        </a>`
+                                    if (revOrCom == 'rev') {
+                                        newData += '<label class="ownratingscore14px">' + data.entityList[el].value.rating + '/10</label>'
+                                    }
+                                }
+                                else {
+                                    if (revOrCom == 'rev') {
+                                        newData += '<label class="ratingscore14px">' + data.entityList[el].value.rating + '/10</label>'
+                                    }
+                                }
+                                var text = (revOrCom == 'rev' ? data.entityList[el].value.reviewText : data.entityList[el].value.commentText);
+                                newData += `<p class="comment">` + (text == null ? '[Пользователь не оставил текст отзыва]' : text) + `</p>
+                                </div>`
+                            }
+                            $(listId).html(newData);
+                            if (newData.length > 0) {
+                                $(listId).show();
+                            }
+                            else {
+                                $(listId).hide();
+                            }
+                            
+                            if (data.haveReview) {
+                                $('#newreviewform').hide()
+                            }
+                            else {
+                                $('#newreviewform').show()
+                            }
+                            
+                        }
+                        else
+                            alert(data.message);
+                        $('#movierating').text(data.rating);
+                    }
+                });
+            }
+            function removeCommentOrReviewAsync(instanceId, revOrCom) {
+                $.ajax({
+                    type: 'POST',
+                    async: true,
+                    url: '../Titles/@movieId/RemoveCommentOrReview',
+                    data: {
+                        EntityId: instanceId,
+                        UserId: @userId,
+                        CommentOrReview: revOrCom
+                    },
+                    success: function (data) {
+                        if (data.result) {
+                            var listId = revOrCom == 'rev' ? '#reviewList' : '#commentList';
+                            var newData = '';
+                            var userAlreadyHasReview = false;
+                            for (el in data.entityList) {
+                                newData +=
+                                    `<div class="comment">
+                                <a href="../Users/` + data.entityList[el].key.id +
+                                    '" title="' + data.entityList[el].key.userName + '">' + `
+                                    <div class="smalluseravatar">
+                                        <img src="../static/images/UsersAvatars/` + data.entityList[el].key.id +
+                                    `.jpg" onerror="this.src='../static/images/UsersAvatars/NoAvatar/NoAvatar50px.png'"/>
+                                    </div>
+                                </a>`
+                                if (data.entityList[el].key.id == @userId) {
+                                    userAlreadyHasReview = true;
+                                    newData +=
+                                        `<a  onclick="removeCommentOrReviewAsync(` + data.entityList[el].value.id + `,'` + revOrCom + `')" title='Удалить'>
+                                            <img class="removebutton20px" src="../static/images/InterfaceButtons/Delete.png"/>
+                                        </a>`
+                                    if (revOrCom == 'rev') {
+                                        newData += '<label class="ownratingscore14px">' + data.entityList[el].value.rating + '/10</label>'
+                                    }
+                                }
+                                else {
+                                    if (revOrCom == 'rev') {
+                                        newData += '<label class="ratingscore14px">' + data.entityList[el].value.rating + '/10</label>'
+                                    }
+                                }
+                                var text = (revOrCom == 'rev' ? data.entityList[el].value.reviewText : data.entityList[el].value.commentText);
+                                newData += `<p class="comment">` + (text == null? '[Пользователь не оставил текст отзыва]': text) + `</p>
+                            </div>`
+                            }
+                            $(listId).html(newData);
+                            if (newData.length > 0) {
+                                $(listId).show();
+                            }
+                            else {
+                                $(listId).hide();
+                            }
+                            if (data.haveReview) {
+                                $('#newreviewform').hide()
+                            }
+                            else {
+                                $('#newreviewform').show()
+                            }
+                            $('#movierating').text(data.rating);
+                        }
+                        else
+                            alert(data.message)
+                    }
+                });
+            }
+            </script>
+            <div class="elinfo" style="height:auto">
+                <h3>Информация:</h3>
+                <p class="bigLabelFont">
+                    Рейтинг: <text id="movierating">@(@Model.movie.RoundedRating)</text>/10
+                    <img src="~/static/images/stars/star50px.png" height="15" />
+                </p>
+                <p class="bigLabelFont">Год выхода на экраны: @Model.movie.ReleaseYear</p>
+                <p class="bigLabelFont">Жанр: @Model.movie.Genres</p>
+                <h3>Описание:</h3>
+                <div class="VerticalSlider">
+                    @Model.movie.RuDescription;
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            function SwitchTab(evt, TabName) {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+
+                // Show the current tab, and add an "active" class to the button that opened the tab
+                document.getElementById(TabName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
+        <div class="tab">
+            <button class="tablinks" onclick="SwitchTab(event, 'Comments')">Комментарии</button>
+            <button class="tablinks" onclick="SwitchTab(event, 'Reviews')">Обзоры и оценки</button>
+        </div>
+
+                                        <!-- Tabs -->
+        <!-- ------------------------------comments--------------------------------- -->
+        <div id="Comments" class="tabcontent">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <br />
+                <div class="comment-review-list">
+                    <div class="new-comment">
+                        <h3>Добавить комментарий:</h3>
+                        <form class="new-comment" id="newcomment">
+                            <input type="text" name="UserId" hidden="hidden" readonly="readonly" value="@userId" />
+                            <input type="text" name="MovieId" hidden="hidden" readonly="readonly" value="@Model.movie.Id" />
+                            <textarea id="commentText" style="width:700px; height:150px; resize: none" name="ComRevText"></textarea>
+                            <br />
+                            <input type="hidden" value="com" name="CommentOrReview" />
+                            <input type="button" onclick="sendCommentOrReviewAsync('com')" value="Отправить" class="btn btn-primary" />
+                        </form>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <label class="bigLabelFont">Авторизуйтесь для возможности оставлять комментарии</label>
+            }
+            <br />
+            <div class="comment-review-list" id="commentList" style="display:@(Model.comments.Count > 0? "display" : "none")">
+                @if (Model.comments.Count > 0)
+                {
+                    @foreach (KeyValuePair<UserMinimalInfo, Comment> kvp in Model.comments)
+                    {
+                        <div class="comment">
+                            <a href="../Users/@kvp.Key.Id" title="@kvp.Key.UserName">
+                                <div class="smalluseravatar">
+                                    <img src="~/static/images/UsersAvatars/@(kvp.Key.Id).jpg" onerror="this.src='../static/images/UsersAvatars/NoAvatar/NoAvatar50px.png'" />
+                                </div>
+                            </a>
+                            @if (kvp.Key.Id == userId)
+                            {
+                                <a onclick="removeCommentOrReviewAsync(@kvp.Value.Id, 'com')" title='Удалить'>
+                                    <img class="removebutton20px" src="~/Static/Images/InterfaceButtons/Delete.png" />
+                                </a>
+                            }
+                            <p class="comment">@kvp.Value.CommentText</p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+
+        <!-- ------------------------------reviews--------------------------------- -->
+
+        <div id="Reviews" class="tabcontent">
+            @if (User.Identity.IsAuthenticated)
+            {
+            <div class="comment-review-list" style="display: @(Model.reviews.Any(el => el.Key.Id == userId)? "none": "block" )" id="newreviewform">
+                <div class="new-comment">
+                    <h3>Добавить отзыв:</h3>
+                    <form class="new-comment" id="newreview" oninput="changeRatingSlider(Rating.value)">
+                        <input type="text" name="UserId" hidden="hidden" readonly="readonly" value="@userId" />
+                        <input type="text" name="MovieId" hidden="hidden" readonly="readonly" value="@Model.movie.Id" />
+                        <textarea id="reviewText" style="width:700px; height:150px; resize: none" name="ComRevText"></textarea>
+                        <br />
+                        Ваша оценка: <label id="ratingLabel">0</label>
+                        <input type="range" id="Rating" name="Rating" min="0" max="10" step="0.1" value="0" />
+                        <br />
+                        <input type="hidden" value="rev" name="CommentOrReview" />
+                        <input type="button" onclick="sendCommentOrReviewAsync('rev')" value="Отправить" class="btn btn-primary" />
+                    </form>
+                </div>
+            </div>
+            }
+            else
+            {
+            <label class="bigLabelFont">Авторизуйтесь для возможности оставлять отзывы</label>
+            }
+            <div class="comment-review-list" id="reviewList" style="display:@(Model.reviews.Count > 0? "display" : "none")">
+                @if (Model.reviews.Count > 0)
+                {
+                @foreach (KeyValuePair<UserMinimalInfo, Review> kvp in Model.reviews)
+                    {
+                <div class="comment">
+                    <a href="../Users/@kvp.Key.Id" title="@kvp.Key.UserName">
+                        <div class="smalluseravatar">
+                            <img src="~/static/images/UsersAvatars/@(kvp.Key.Id).jpg" onerror="this.src='../static/images/UsersAvatars/NoAvatar/NoAvatar50px.png'" />
+                        </div>
+                    </a>
+                    @if (kvp.Key.Id == userId)
+                    {
+                        <a onclick="removeCommentOrReviewAsync(@kvp.Value.Id, 'rev')" title='Удалить'>
+                            <img class="removebutton20px" src="~/Static/Images/InterfaceButtons/Delete.png" />
+                        </a>
+                        <label class="ownratingscore14px">@(kvp.Value.Rating.ToString().Replace(",", "."))/10</label>
+                    }
+                    else
+                    {
+                        <label class="ratingscore14px">@(kvp.Value.Rating.ToString().Replace(",", "."))/10</label>
+                    }
+                    <p class="comment">@(string.IsNullOrEmpty(kvp.Value.ReviewText)? "[Пользователь не оставил текст отзыва]": kvp.Value.ReviewText)</p>
+                </div>
+                    }
+                }
+            </div>
+        </div>
+
+
+    </body>
