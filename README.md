@@ -7,3 +7,6 @@
 
 Основные возможности в кратце показаны в видео по ссылке ниже:
 https://www.youtube.com/watch?v=2pM8tQcb_eA
+
+Регистрация нового пользователя с подтверждением по почте:
+https://www.youtube.com/watch?v=QxgT877A1Mk
